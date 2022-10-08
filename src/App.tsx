@@ -1,41 +1,40 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import './App.css';
-
-interface ITask {
-  taskName: string
-}
+import AddTodo from './components/AddTodo';
+import TodoList from './components/TodoList';
+import { ITodo } from './todoModel';
 
 const App:React.FC = () => {
-  const [todo, setTodo] = useState<ITask[]>([]);
-  const [task, setTask] = useState<string>("");
+  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [todo, setTodo] = useState<string>("");
 
 
   const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name === "task") {
-      setTask(event.target.value);
+    if (event.target.name === "task" && event.target.value) {
+      setTodo(event.target.value);
     }
   };
 
-  const handleSubmit = () => {
-    const newTask = {
-      taskName: task
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (todo) {
+      const newTask = {
+        id: Date.now(),
+        todo,
+        isCompleted: false
+      }
+      setTodos([...todos, newTask]);
+      setTodo("");
     }
-    setTodo([...todo, newTask]);
-    setTask("");
   };
 
   return (
-    <div className="App">
+    <div className='main-container'>
         <div>
-            <input name="task" onChange={handleChange} value={task} />
-            <button onClick={handleSubmit}>Add</button>
+            <AddTodo handleChange={handleChange} handleSubmit={handleSubmit} todo={todo} />
         </div>
         <div>
-            <ul>
-              {todo.map((item) => (
-                <li>{item.taskName}</li>
-              ))}
-            </ul>
+            <TodoList todos={todos}/>
         </div>
     </div>
   );

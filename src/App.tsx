@@ -10,7 +10,7 @@ const App:React.FC = () => {
 
 
   const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name === "task" && event.target.value) {
+    if (event.target.name === "task") {
       setTodo(event.target.value);
     }
   };
@@ -28,13 +28,30 @@ const App:React.FC = () => {
     }
   };
 
+  const editTodo = (id:number, newTodo:string) => {
+    const selectedTodo = todos.find(t => t.id === id);
+    if (selectedTodo) {
+      selectedTodo.todo = newTodo;
+    }
+    setTodos([...todos]);
+  }
+
+  const deleteTodo = (id:number) => {
+    const filteredTodos = todos.filter(t => t.id !== id);
+    setTodos([...filteredTodos]);
+  }
+
   return (
     <div className='main-container'>
         <div>
             <AddTodo handleChange={handleChange} handleSubmit={handleSubmit} todo={todo} />
         </div>
         <div>
-            <TodoList todos={todos}/>
+            <TodoList 
+              todos={todos}
+              editTodo={editTodo}
+              deleteTodo={deleteTodo}  
+            />
         </div>
     </div>
   );

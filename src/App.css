@@ -8,10 +8,11 @@
 
 .card {
   display: flex;
+  flex-direction: row;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   width: 100%;
-  min-width: 200px;
+  min-width: 250px;
 }
 
 .card:hover {
@@ -24,4 +25,16 @@
 
 .todo-list {
   padding: 0;
+}
+
+.icons-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icons-wrapper span {
+  margin: 2px;
+  padding: 5px;
+  cursor: pointer
 }
